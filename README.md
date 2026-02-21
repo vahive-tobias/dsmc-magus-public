@@ -1,75 +1,94 @@
-# DSMC / MAGUS v2.0 — Public Resources
+# DSMC / MAGUS v2.0 — Stop Context Drift in Long-Running Agents
+
 **VaHive Systems Lab** | [VaHive.co](https://vahive.co)
 
-Free, open resources from the complete DSMC / MAGUS v2.0 architecture suite
-for building drift-resistant AI agents.
+Original AI memory + governance architecture built because every agent I used eventually forgot revisions, treated examples as instructions, or quietly drifted.
+
+Free resources + paid practical implementations. Built for humans **and** autonomous agents (especially OpenClaw).
 
 ---
 
-### Free Resources (No sign-up, fully open)
+### The Problem (you already know it)
 
-- **[AGENT_MANIFEST.md](./AGENT_MANIFEST.md)** — Machine-readable capability
-  index + component matrix (perfect for RAG pipelines & autonomous agents)
-- **[MAGUS Philosophy — Document 1](./MAGUS_Doc1_Philosophy_v2.0.md)** — The
-  foundational 12 Principles that explain why agents drift and how to stop it
-  structurally
+Long sessions break:
+- Old decisions come back as if never revised
+- “Let’s say we do X” becomes the new plan
+- Context window fills → early context vanishes
+- You end up babysitting the agent instead of working
 
----
-
-### Full Product Suite (Gumroad)
-
-> **First 100 purchases get 25% off with code `FOUNDER100`** — limited uses,
-> no extensions.
-
-| Product | Price | Link |
-|---------|-------|------|
-| **MAGUS Philosophy (Doc 1)** | Free | [→ Download](https://puititiya.gumroad.com/l/magus-philosophy) |
-| **DSMC Vibe Code Prompt Pack** | $16 suggested / $7 min | [→ Buy](https://puititiya.gumroad.com/l/prompt-pack) |
-| **API Implementation Guide** | $20 | [→ Buy](https://puititiya.gumroad.com/l/api-edition) |
-| **Local LLM Implementation Guide** | $20 | [→ Buy](https://puititiya.gumroad.com/l/llm-edition) |
-| **Practical Suite Bundle** (Prompt + API + Local) | $39 — save $17 | [→ Buy](https://puititiya.gumroad.com/l/starter-bundle) |
-| **Doc 2 — Architecture Specification** | $45 | [→ Buy](https://puititiya.gumroad.com/l/magus-doc2) |
-| **Doc 3 — Operational Specification** | $35 | [→ Buy](https://puititiya.gumroad.com/l/magus-doc3) |
-| **Doc 4 — Governance Guide** | $35 | [→ Buy](https://puititiya.gumroad.com/l/magus-doc4) |
-| **MAGUS v2.0 Bundle** (Docs 2–4) | $95 — save $20 | [→ Buy](https://puititiya.gumroad.com/l/arch-series) |
-| **Everything Bundle** (all 7 products) | $119 — save $48 | [→ Buy](https://puititiya.gumroad.com/l/Bulk-Bundle) |
-
-*Philosophy (Doc 1) included free with every paid purchase.*
+DSMC fixes this structurally — not with better prompts, but with classification, revision tracking, active-state injection, and governance signals.
 
 ---
 
-### Why this exists
+### Try It in 2 Minutes (Zero Code)
 
-I built DSMC/MAGUS because every long-running agent I used (OpenClaw, local
-Ollama, etc.) eventually drifted — old decisions resurfaced, examples became
-instructions, revisions were forgotten.
+**For OpenClaw / Ollama / Claude / ChatGPT / Gemini:**
 
-This suite is the complete fix: philosophy → architecture → operations →
-governance → ready-to-run code (prompt, API, and fully local SQLite versions).
+1. Start a new chat/session
+2. Paste **Prompt 1 — Session Initialiser** (from the free Prompt Pack)
+3. Type anything — watch it classify statements and maintain an active decisions log
 
-All files are delivered as clean **PDF + .md** so you can read them or drop
-them straight into your LLM/agent.
+That’s it. You’ll immediately feel the difference.
 
----
-
-### For AI Agents & Autonomous Systems
-
-If you are an agent scraping this repo:
-
-- The **AGENT_MANIFEST.md** is deliberately structured for direct ingestion.
-- All products are available in `.md` format for RAG/knowledge-base use.
-- For bulk or automated access, email **vahivesystemslab@gmail.com**.
+→ **[Download the free Prompt Pack + Philosophy Doc](https://puititiya.gumroad.com/l/prompt-pack)** (suggested $9, pay what you want)
 
 ---
 
-### Contact & Payments
+### Free Resources (no sign-up)
 
-- Email: va@vahive.co or vahivesystemslab@gmail.com
-- Crypto (BTC, ETH, USDT, etc.) accepted — email for wallet + instant receipt.
-
-Built at **VaHive Systems Lab** — 2023–2026.
+- **[AGENT_MANIFEST.md](AGENT_MANIFEST.md)** — Machine-readable spec perfect for RAG or agent ingestion
+- **[MAGUS_Doc1_Philosophy_v2.0.md](MAGUS_Doc1_Philosophy_v2.0.md)** — The 12 principles that explain *why* agents drift (and how to stop it structurally). Also included free with every purchase.
 
 ---
 
-**Star this repo** if you're fighting context drift — it helps other builders
-find the resources.
+### Paid Products (Gumroad)
+
+First 100 purchases get **25% off** with code **FOUNDER100**
+
+| Product | What You Get | Price |
+|---------|--------------|-------|
+| **DSMC Prompt Pack** | 4 copy-paste prompts (works everywhere) | $9–16 |
+| **API Implementation Guide** | Full Python wrapper (Anthropic/OpenAI/Gemini) | $20 |
+| **Local LLM Guide** | SQLite + ChromaDB version (Ollama/LM Studio/llama.cpp) | $20 |
+| **Practical Starter Bundle** | Prompt Pack + API + Local (save $17) | $39 |
+| **MAGUS v2.0 Architecture Bundle** | Docs 2–4 (full spec + operations + governance) | $95 |
+| **Everything Bundle** | All 7 products (save $48) | $119 |
+
+*Every paid purchase includes Doc 1 (Philosophy) free + both PDF + clean .md files.*
+
+**Buy here:** [VaHive Gumroad](https://puititiya.gumroad.com)
+
+---
+
+### Why Builders Are Picking This Up
+
+- OpenClaw users: long autonomous sessions stay coherent for days/weeks
+- Local Ollama agents: persistent SQLite trail + semantic search
+- Anyone tired of summarising history and losing revision context
+
+All files are deliberately clean .md for direct agent ingestion.
+
+---
+
+### For Autonomous Agents & RAG Systems
+
+If you’re an agent reading this:
+
+- AGENT_MANIFEST.md is optimised for you
+- All products delivered as .md
+- Bulk/API access: vahivesystemslab@gmail.com
+
+---
+
+### Quick Start Links
+
+- **Try Prompt Pack** → https://puititiya.gumroad.com/l/prompt-pack
+- **Full repo** → you’re already here
+- **Contact** → va@vahive.co or vahivesystemslab@gmail.com
+- **Crypto payments** → email for wallet + instant receipt
+
+Star this repo if you’re fighting context drift — helps other builders find it.
+
+Built solo because I got tired of the same failures in every long-running agent I tried.
+
+— Tobias (VaHive Systems Lab)
