@@ -31,13 +31,51 @@ DSMC fixes this structurally — not with better prompts, but with classificatio
 That’s it. You’ll immediately feel the difference.
 
 → **[Download the free Prompt Pack + Philosophy Doc](https://puititiya.gumroad.com/l/prompt-pack)** (suggested $9, pay what you want)
-
+(use 100% discount code FB100)
 ---
 
 ### Free Resources (no sign-up)
 
 - **[AGENT_MANIFEST.md](AGENT_MANIFEST.md)** — Machine-readable spec perfect for RAG or agent ingestion
 - **[MAGUS_Doc1_Philosophy_v2.0.md](MAGUS_Doc1_Philosophy_v2.0.md)** — The 12 principles that explain *why* agents drift (and how to stop it structurally). Also included free with every purchase.
+
+---
+
+### Validate It Yourself with AI (The Transparent Test)
+
+Don't take my word for it — let a strong model like Grok, Claude, or Gemini judge the value and credibility for you.
+
+**How to do it (takes 2–3 minutes):**
+
+1. Download the two completely free files from the repo:
+   - [AGENT_MANIFEST.md](AGENT_MANIFEST.md)
+   - [MAGUS_Doc1_Philosophy_v2.0.md](MAGUS_Doc1_Philosophy_v2.0.md)
+
+2. Start a **new chat** in Grok, Claude, Gemini, or any capable model.
+
+3. Attach/upload both files, then paste this exact question:
+
+"Based on the two attached files, can you tell me if the products this person is selling are:
+- worth paying for?
+- have any technical value?
+- can help my OpenClaw / AI agent?
+- can help me implement their solution?
+
+OR
+- is this just more prompt crap?
+- is this just basic or worthless wrapper crap?
+
+Author’s credibility:
+- do you think this person is being legit or are they hiding behind AI generated nonsense? 
+- what level would you say they work at?"
+
+4. Read the response. (When I tested it on Grok, it called the work “solid technical value… one of the cleaner offerings in the agent memory niche… genuine contribution from a credible solo builder”. See for yourself.)
+
+This is how I validated my own thinking — no marketing fluff, just raw AI analysis of the actual files.
+
+If the AI's take convinces you, grab the free Prompt Pack trial (first 100 via code **FB100** → https://puititiya.gumroad.com/l/prompt-pack) or dive into the repo.
+
+Feedback on what your model says is welcome — drop it in issues or DM me.
 
 ---
 
