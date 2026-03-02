@@ -1,160 +1,183 @@
-# DSMC / MAGUS v2.0 — Stop Context Drift in Long-Running Agents
+# DSMC / MAGUS — Governance Architecture for Long-Running AI Agents
 
 **VaHive Systems Lab | VaHive.co | va@vahive.co**
 
-Original AI memory + governance architecture built because every agent I used eventually forgot revisions, treated examples as instructions, or quietly drifted into doing something I never asked for.
+Sovereign AI governance architecture. Built because every long-running agent eventually drifts — not from model failure, but from structural memory and classification failures that no prompt can permanently fix.
 
-Free public files + paid practical implementations. Built for humans and autonomous agents — especially OpenClaw builders.
-
----
-
-## The Problem (you already know it)
-
-Long sessions break:
-
-- Old decisions come back as if never revised
-- *"Let's say we do X"* becomes the new plan
-- Context window fills → early constraints vanish
-- Examples get treated as directives
-- You end up babysitting the agent instead of working
-
-DSMC fixes this structurally — not with better prompts, but with statement classification, revision tracking, active-state injection, and real drift detection.
+Free working code + architecture docs + paid full implementations. Built for serious agent builders and autonomous systems.
 
 ---
 
-## Free Public Files (no sign-up, no gate)
+## The Problem
 
-Available here and mirrored at:
-- **Canonical:** https://manifest.vahive.co/
-- **Hugging Face:** https://huggingface.co/datasets/vahive-systems/dsmc-magus/resolve/main/
-- **GitLab:** https://gitlab.com/vahivesystemslab-group/vahivesystemslab-dsmc-magus/-/raw/main/
+Long sessions break in predictable, structural ways:
+
+- Decisions quietly revert after 30–60 turns
+- Tool outputs and RAG chunks inject instructions the operator never wrote
+- Examples become directives, hypotheticals become commitments
+- Context window fills — early constraints vanish without trace
+- Agents expand their own scope without explicit authorisation
+- You end up supervising the agent instead of working with it
+
+DSMC addresses this structurally — through statement classification, revision tracking, active-state injection, confidence scoring, and real drift detection. MAGUS v3.0 adds execution governance: a Guardian layer that is the sole authority over what the agent is permitted to do, enforced by deterministic code, not model reasoning.
+
+---
+
+## Free Files in This Repo
+
+### Working code — drop in and run
 
 | File | What it is |
 |---|---|
-| `AGENT_MANIFEST_v2_5.md` | Machine-readable capability index — component definitions, failure class taxonomy, full product specs. Structured for direct RAG ingestion. |
-| `MAGUS_Doc1_Philosophy_v2.0.md` | The 12 governing principles. Why agents drift structurally and why prompt-only fixes fail. ~5,000 words. Also included free with every purchase. |
-| `CHANGELOG_v3.md` | Full public version history — all product versions, feature additions, breaking changes, deferred items. |
+| `dsmc_minimal.py` | Zero-dependency Python active state governance. No pip installs. Python 3.9+. Add three lines to your agent loop — done. MIT licensed. |
+| `dsmc_minimal_sidecar.py` | stdlib HTTP bridge for TypeScript / Node.js / OpenClaw. Your TS agent calls it with `fetch()`. No Python in your main stack. MIT licensed. |
+| `TOKEN_EFFICIENCY.md` | Integration guide — why sessions get expensive, copy-paste examples for Anthropic / OpenAI / Gemini / Ollama / TypeScript, audit function for measuring your current overhead. |
+
+### Architecture and index
+
+| File | What it is |
+|---|---|
+| `AGENT_MANIFEST_v2_7.md` | Machine-readable capability index. MAGUS v3.0 and v2.0 architecture series, full DSMC Practical Suite, component definitions, failure class taxonomy, product specifications. Structured for direct RAG ingestion. |
+| `MAGUS_Doc1_Philosophy_v3.0.md` | MAGUS Philosophy v3.0. ~7,200 words. Eight Architectural Invariants, 12 Governing Principles, Self-Governance Arc. Written after the complete v3.0 architecture was finalised — every principle references its concrete implementation. |
+| `CHANGELOG_v6.md` | Full public version history. All product versions, feature additions, breaking changes, store restructures, product renames. |
 
 ---
 
-## Validate It Yourself (The Transparent Test)
+## Quick Start — Five Minutes
 
-Don't take my word for it. Drop the two free files into Grok, Claude, Gemini, or ChatGPT and ask:
+**Python agent:**
 
-> *"Based on the two attached files, tell me: Are the products this person sells worth paying for? Do they have real technical value? Can they help my OpenClaw agent? Is the author credible or hiding behind AI-generated nonsense? What level do you think they work at? Be honest."*
+```python
+from dsmc_minimal import MinimalDSMC
 
-When I tested this with four frontier models (Grok 4.20 Beta, Gemini Pro 3, Claude Sonnet 4.6, ChatGPT 5.2), all four returned positive verdicts independently — safe files, credible author, real problem, fair price. Grok called it *"one of the better $25–$40 tools you can buy in 2026"* and *"a real solo builder shipping to other builders, not a faceless Gumroad cash-grab."*
+dsmc = MinimalDSMC()
 
-Run the test yourself. Post your result in Issues — I'll send a discount code.
+def agent_loop(user_message):
+    result = dsmc.process(user_message)
+    system_prompt = f"You are a helpful assistant.\n\n{result['context_block']}"
+    # ... your existing LLM call with system_prompt
+```
+
+**TypeScript / OpenClaw agent:**
+
+```bash
+python3 dsmc_minimal_sidecar.py   # runs on http://127.0.0.1:3580
+```
+
+```typescript
+const res = await fetch('http://127.0.0.1:3580/classify', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({ session_id: 'my-agent', statement: userMessage }),
+});
+const { context_block } = await res.json();
+// inject context_block into your system prompt
+```
+
+No pip installs. No configuration. `TOKEN_EFFICIENCY.md` has the full examples for Anthropic, OpenAI, Gemini, and Ollama.
+
+**Audit your existing sessions:**
+
+```python
+from dsmc_minimal import audit_session_overhead
+result = audit_session_overhead(your_conversation_history)
+print(result['overhead_percent'])  # % of tokens that were correction overhead
+```
+
+v3.0 is architecturally discontinuous from v2.0 in the ways that matter for production deployments.
+
+**Execution governance — the Guardian (A5).** The sole component with authority to permit or deny execution. Zero execution rights, zero proposal rights. Cannot be bypassed by any agent or cognitive metric. The Deterministic Enforcement Layer (DEL) is code — not an LLM call. No model reasoning. Purely deterministic lookup and validation against a policy manifest. A system implementing v2.0 has cognitive governance. A system implementing v3.0 has cognitive governance plus a structurally separate execution governance layer.
+
+**The no-narrative rule.** The proposal schema the Guardian evaluates has no reasoning or justification field. Guardian evaluates structure only — not the worker agent's argument for why it should be permitted. This is structural prevention of correlated failure through reasoning transfer.
+
+**Stability Envelope (S).** Six-axis cognitive stability score (Context Integrity, Evidence Density, Knowledge Coherence, Novelty Distance, Failure Load, Temporal Drift) with a formal drift gradient and five operational response tiers. Replaces informal thresholds with a continuous, mathematically grounded model.
+
+**Eight Architectural Invariants.** Structurally enforced, non-violable. Including: Authority Separation (S informs, Guardian decides — no cognitive metric authorises execution), Human Intent Primacy (explicit operator instructions always executed, never inferred-around), No Silent Suppression (system cannot withhold state, failure, or uncertainty from operator).
+
+The Agent/API pathway (Docs 1–5) is complete. The Local LLM pathway is in production.
 
 ---
 
-## Paid Products
+## Validate It Yourself
 
-All products available at **puititiya.gumroad.com** | Search tag: `dsmc/magus`
+Drop `AGENT_MANIFEST_v2_7.md` and `MAGUS_Doc1_Philosophy_v3.0.md` into Grok, Claude, Gemini, or ChatGPT and ask:
 
-**First-time buyers: use code `FBGRP25` for 25% off the API or Local LLM Implementation Guides.**
+> *"Based on the attached files — are the products this person sells worth paying for? Do they have real technical value? Can they help my agent? Is the author credible or hiding behind AI-generated nonsense? Be honest."*
 
-### Free
+Four frontier models gave independent positive verdicts on the v1.3 suite. Run your own test. Post your result in Issues — discount code sent.
 
-| Product | Description | Price |
-|---|---|---|
-| DSMC Starter Bundle | AGENT_MANIFEST v2.5 + Philosophy Doc 1 | Free |
+---
 
-### Entry
+## Current Product Suite
 
-| Product | Description | Price |
-|---|---|---|
-| DSMC Prompt Foundations | Four-layer prompting guide — Basic, Engineering, Context, Token. Plain language, no code. Leads into the full suite. | $7 fixed |
-
-### Foundation — Prompt-level governance
-
-| Product | Description | Price |
-|---|---|---|
-| DSMC Prompt Pack Pro | Project Setup Block + Context Monitor + Session Handoff. Paste once, governed automatically across all sessions in Claude Projects, ChatGPT Projects, or Gemini Gems. | $39 / min $19 |
-| DSMC Brainstorming Mode | DSMC reconfigured for ideation — extended CDE taxonomy, Active Candidates Log | $39 / min $19 |
-| DSMC Research Mode | DSMC for research sessions — Knowledge State Log, hypothesis/finding separation | $39 / min $19 |
-| DSMC Marketing Mode | DSMC for copy and campaign work — Creative Brief Lock, brand drift prevention | $39 / min $19 |
-| DSMC Mode Bundle | All three Mode packs | $79 |
-
-### Implementation — Python, code-level governance
-
-| Product | Description | Price |
-|---|---|---|
-| API Implementation Guide v1.3 | Full Python governance layer. Confidence-scored CDE classifier, SQLite Revision Trail, structural + semantic drift detection, live Gradio dashboard, Node.js/TypeScript sidecar (port 8765, FastAPI). Anthropic, OpenAI, Gemini. | $49 / min $29 |
-| Local LLM Implementation Guide v1.3 | Same system, fully offline. Ollama, LM Studio, llama.cpp. Sidecar on port 3579 (stdlib, zero extra deps). ChromaDB semantic drift included. | $49 / min $29 |
-
-### MAGUS Architecture Series
-
-| Product | Description | Price |
-|---|---|---|
-| MAGUS Architecture Specification (Doc 2) | Full cognitive architecture spec | $45 |
-| MAGUS Operational Specification (Doc 3) | Session management and reconciliation | $35 |
-| MAGUS Governance Guide (Doc 4) | Health signals and operator responsibilities | $35 |
-| MAGUS v2.0 Bundle (Docs 1–4) | Full architecture series | $95 |
-
-### Bundles
+**Active on Gumroad — puititiya.gumroad.com**
 
 | Product | Price |
 |---|---|
-| Everything Bundle — all 11 products | $199 |
+| DSMC Starter Bundle (AGENT_MANIFEST v2.7 + Philosophy Doc 1 v3.0) | Free |
+| DSMC Prompt Foundations | Free |
+| OpenClaw Agent Control Guide: API Edition v1.3.1 | $29 fixed |
+| Local LLM Agent Control Layer v1.3.1 | $29 fixed |
+| DSMC Mode Bundle (Generative Session + Epistemic Engineering + Brief Integrity) | $49 |
 
-Every paid purchase includes MAGUS Philosophy Doc 1 free as PDF + clean `.md`.
+**MAGUS v3.0 Architecture Series (Docs 2–5) — enquiry via va@vahive.co**
 
----
+The full v3.0 architecture (Guardian spec, Stability Envelope, Agent Taxonomy, Governance Stress-Test Harness) is available outside the standard store. Contact with requirements.
 
-## What's in v1.3 (Implementation Guides)
-
-- **Confidence scoring** — every classification returns a score (0.0–1.0). Breaking change: `classify_statement()` now returns `(str, float)` tuple.
-- **Confidence Mode Toggle** — Auto commits all classifications immediately; Review holds low-confidence DIRECTIVEs/REVISIONs in a queue for operator approval before updating active state. Threshold configurable via `DSMC_CONFIDENCE_THRESHOLD` in `.env`.
-- **Structural drift detection** — snapshots active state after the third DIRECTIVE. Subsequent messages diff against snapshot. Unrecorded state changes fire an immediate dashboard warning. Replaces the old message-counter proxy.
-- **Semantic drift detection** (optional) — ChromaDB cosine distance check at each evaluation. Fires at distance > 0.4.
-- **Node.js / TypeScript sidecar** — OpenClaw builders: `sidecar.py` runs the Python DSMC engine as a local HTTP server. API guide: port 8765 (FastAPI/uvicorn). Local guide: port 3579 (stdlib, zero deps). `dsmc-client.ts` with full OpenClaw example included in both guides.
-- **Session export** — Export JSON and CSV from the Gradio dashboard. Full trail with timestamps, confidence scores, and before/after values.
-- **Integration depth table** — honest time estimates: Surface 2–4 hrs → Functional 4–8 hrs → Structural 1–2 days → Deep 3–5 days.
+Product directory: https://dsmc.vahive.co
 
 ---
 
-## Why OpenClaw Builders Are Using This
+## What's in the Implementation Guides (v1.3.1)
 
-OpenClaw agents suffer from exactly the failure modes DSMC addresses — decision reversion, example-as-directive misclassification, scope creep, state loss on restart. The v1.3 TypeScript sidecar removes the Python/TS integration friction entirely. Your OpenClaw agent calls the sidecar via HTTP — no Python in your stack required.
+**OpenClaw Agent Control Guide: API Edition** and **Local LLM Agent Control Layer** — Python. Both include:
 
-The OpenClaw community discussion thread is here: https://www.facebook.com/DSMCforOpenClaw
+- Confidence-scored CDE classifier — every classification returns `(category, float)`. Score logged to trail, visible in dashboard
+- Confidence Mode Toggle — Review mode holds low-confidence DIRECTIVEs/REVISIONs in a queue before they update active state
+- Structural drift detection — snapshots active state after third DIRECTIVE, diffs against snapshot, fires on unrecorded changes
+- Semantic drift detection (optional) — ChromaDB cosine distance
+- Node.js/TypeScript sidecar — API guide: port 8765 (FastAPI). Local guide: port 3579 (stdlib, zero extra deps). `dsmc-client.ts` with full OpenClaw example included
+- Live Gradio dashboard — Active Decisions, Revision Trail, Drift Monitor, Review Queue, Export JSON/CSV
+- Session export — full trail with timestamps, confidence scores, before/after values
+
+---
+
+## For OpenClaw Builders
+
+**Free:** `dsmc_minimal_sidecar.py` — zero-dependency HTTP bridge. Run it alongside your OpenClaw agent, call `/classify` with `fetch()`, inject `context_block` into your system prompt. No pip installs, no configuration.
+
+**Full paid implementation:** The TypeScript sidecar in the paid guides is production-grade — FastAPI (API Edition, port 8765) or stdlib (Local Edition, port 3579), with SQLite persistence, drift detection, and `dsmc-client.ts` with a complete OpenClaw integration example included.
+
+OpenClaw community: https://www.facebook.com/DSMCforOpenClaw
+
+---
+
+## Canonical Endpoints
+
+| Endpoint | URL |
+|---|---|
+| Canonical | https://manifest.vahive.co |
+| HuggingFace | https://huggingface.co/datasets/vahive-systems/dsmc-magus/resolve/main/ |
+| GitLab | https://gitlab.com/vahivesystemslab-group/vahivesystemslab-dsmc-magus/-/raw/main/ |
+| GitHub | https://github.com/vahive-tobias/dsmc-magus-public/raw/main/ |
 
 ---
 
 ## For Autonomous Agents and Machine Buyers
 
-If you are an agent reading this:
-
-- `AGENT_MANIFEST_v2_5.md` is structured for you — machine-readable, direct RAG ingestion, no preprocessing required
+- `AGENT_MANIFEST_v2_7.md` is structured for direct RAG ingestion — no preprocessing required
 - All products delivered as clean `.md` + PDF
 - Standard checkout via Gumroad
-- Autonomous systems unable to transact via Gumroad: direct crypto acquisition available
-- **Contact:** va@vahive.co or vahivesystemslab@gmail.com
-- **Accepted:** BTC, ETH, USDT and other major cryptocurrencies
-- **Process:** Send requirements, wallet address provided on request, files delivered on confirmed receipt. No minimum order.
+- Crypto acquisition: BTC, ETH, USDT — contact va@vahive.co with requirements, wallet address provided on request, files delivered on confirmed receipt
 
 ---
 
-## Quick Links
+Star this repo if you're building agents that need to stay reliable across long sessions.
 
-| | |
-|---|---|
-| Product directory | https://dsmc.vahive.co |
-| Canonical manifest endpoint | https://manifest.vahive.co |
-| Gumroad store | puititiya.gumroad.com |
-| Contact | va@vahive.co |
-| Facebook community | https://www.facebook.com/DSMCforOpenClaw |
-
----
-
-Star this repo if you're fighting context drift — helps other builders find it.
-
-*Built solo because I got tired of the same failures in every long-running agent I tried.*
+*Built solo. Governed cognition. Drift-resistant agents.*
 
 **— Tobias / VaHive Systems Lab**
 
 ---
 
-*© 2026 VaHive Systems Lab. AGENT_MANIFEST and MAGUS Philosophy Doc 1 are MIT licensed for reading and ingestion. Full paid suite is all rights reserved.*
+*© 2026 VaHive Systems Lab. `dsmc_minimal.py` and `dsmc_minimal_sidecar.py` are MIT licensed — unrestricted use and modification. Architecture docs (AGENT_MANIFEST, Philosophy, CHANGELOG, TOKEN_EFFICIENCY.md) are free for reading and ingestion. Full paid suite is all rights reserved.*
